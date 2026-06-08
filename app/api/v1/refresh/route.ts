@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE_URL = "https://albaraka.onlayndokon.uz/api/v1";
+const BASE_URL = "http://95.169.204.245/api/v1";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();

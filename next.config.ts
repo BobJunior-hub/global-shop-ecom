@@ -5,13 +5,13 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: "https://albaraka.onlayndokon.uz/api/v1/:path*",
+        destination: "http://95.169.204.245/api/v1/:path*",
       },
     ];
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ["albaraka.onlayndokon.uz", "pijamapro.onlayndokon.uz"],
+      allowedOrigins: ["95.169.204.245", "albaraka.onlayndokon.uz", "pijamapro.onlayndokon.uz"],
     },
   },
   images: {
@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "albaraka.onlayndokon.uz",
+      },
+      {
+        protocol: "http",
+        hostname: "95.169.204.245",
       },
     ],
   },
