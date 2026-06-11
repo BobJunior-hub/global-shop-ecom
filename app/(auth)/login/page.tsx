@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/src/store/auth-store";
+import { useStoreId } from "@/src/lib/store-context";
 import { Input } from "@/src/components/common/input";
 import { Button } from "@/src/components/common/button";
 
@@ -26,6 +27,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/";
   const login = useAuthStore((s) => s.login);
+  const storeId = useStoreId();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +37,7 @@ function LoginForm() {
     const password = formData.get("password") as string;
     setError("");
     setLoading(true);
-    const ok = await login(username, password);
+    const ok = await login(username, password, storeId);
     setLoading(false);
     if (ok) {
       router.refresh();

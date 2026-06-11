@@ -15,6 +15,10 @@ export type ApiStore = {
   address: string;
   phone: string;
   working_hours: string;
+  main_color?: string;
+  secondary_color?: string;
+  logo_url?: string;
+  is_active?: boolean;
 };
 
 export type ApiStoresResponse = {

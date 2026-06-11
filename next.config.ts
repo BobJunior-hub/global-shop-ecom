@@ -5,13 +5,13 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: "http://95.169.204.245/api/v1/:path*",
+        destination: "http://95.169.204.245/api/v1/:path*/",
       },
     ];
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ["95.169.204.245", "albaraka.onlayndokon.uz", "pijamapro.onlayndokon.uz"],
+      allowedOrigins: ["95.169.204.245", "albaraka.onlayndokon.uz", "pijamapro.onlayndokon.uz", "texnomart.onlayndokon.uz"],
     },
   },
   images: {

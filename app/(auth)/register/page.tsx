@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/src/store/auth-store";
+import { useBrand } from "@/src/lib/brand-context";
+import { useStoreId } from "@/src/lib/store-context";
 import { Input } from "@/src/components/common/input";
 import { Button } from "@/src/components/common/button";
 
@@ -26,6 +28,8 @@ function RegisterForm() {
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "";
   const register = useAuthStore((s) => s.register);
+  const { displayName } = useBrand();
+  const storeId = useStoreId();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +48,7 @@ function RegisterForm() {
     }
 
     setLoading(true);
-    const ok = await register(username, password, confirm);
+    const ok = await register(username, password, confirm, storeId);
     setLoading(false);
 
     if (ok) {
@@ -62,7 +66,7 @@ function RegisterForm() {
       <div className="flex flex-col gap-1">
         <h1 className="text-xl font-bold text-zinc-900">Hisob yaratish</h1>
         <p className="text-sm text-zinc-500">
-          {from === "/checkout" ? "Buyurtmani yakunlash uchun ro'yxatdan o'ting." : "Al-Barakaga qo'shiling"}
+          {from === "/checkout" ? "Buyurtmani yakunlash uchun ro'yxatdan o'ting." : `${displayName}ga qo'shiling`}
         </p>
       </div>
 

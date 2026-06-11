@@ -11,6 +11,33 @@ import { StoreProvider } from "@/src/lib/store-context";
 import { BrandProvider } from "@/src/lib/brand-context";
 import "./globals.css";
 
+const BACKEND_BASE = "http://95.169.204.245/api/v1";
+
+function isValidHex(color: string | undefined): color is string {
+  return typeof color === "string" && /^#[0-9A-Fa-f]{3,8}$/.test(color);
+}
+
+async function fetchStoreColors(brand: ReturnType<typeof getBrandByHost>): Promise<{ mainColor: string; secondaryColor: string }> {
+  const fallback = { mainColor: brand.mainColor, secondaryColor: brand.secondaryColor };
+  try {
+    const adminToken = process.env.ADMIN_API_TOKEN;
+    if (!adminToken) return fallback;
+
+    const res = await fetch(`${BACKEND_BASE}/admin/stores/${brand.storeId}`, {
+      cache: "no-store",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${adminToken}` },
+    });
+    if (!res.ok) return fallback;
+    const json = await res.json();
+    return {
+      mainColor: isValidHex(json.data?.main_color) ? json.data.main_color : brand.mainColor,
+      secondaryColor: isValidHex(json.data?.secondary_color) ? json.data.secondary_color : brand.secondaryColor,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -56,12 +83,16 @@ export default async function RootLayout({
 }) {
   const host = (await headers()).get("host");
   const brand = getBrandByHost(host);
+  const { mainColor, secondaryColor } = await fetchStoreColors(brand);
 
   return (
     <html
       lang="uz"
       className={`${poppins.variable} h-full antialiased`}
     >
+      <head>
+        <style>{`:root{--brand-primary:${mainColor};--brand-secondary:${secondaryColor}}`}</style>
+      </head>
       <body className="min-h-full flex flex-col bg-white text-zinc-900">
         <BrandProvider brand={brand}>
           <StoreProvider storeId={brand.storeId}>

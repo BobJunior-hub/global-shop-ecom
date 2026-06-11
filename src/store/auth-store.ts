@@ -12,8 +12,8 @@ type AuthStore = {
   token: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<boolean>;
-  register: (username: string, password: string, passwordConfirm: string) => Promise<boolean>;
+  login: (username: string, password: string, storeId?: string) => Promise<boolean>;
+  register: (username: string, password: string, passwordConfirm: string, storeId?: string) => Promise<boolean>;
   logout: () => void;
   refreshAccessToken: () => Promise<boolean>;
 };
@@ -26,13 +26,13 @@ export const useAuthStore = create<AuthStore>()(
       refreshToken: null,
       isAuthenticated: false,
 
-      login: async (username, password) => {
+      login: async (username, password, storeId) => {
         if (!username || !password) return false;
         try {
           const res = await fetch(`${BASE_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ username, password, ...(storeId && { store_id: storeId }) }),
           });
           if (res.status !== 200) return false;
           const json = await res.json();
@@ -47,13 +47,13 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
-      register: async (username, password, passwordConfirm) => {
+      register: async (username, password, passwordConfirm, storeId) => {
         if (!username || !password) return false;
         try {
           const res = await fetch(`${BASE_URL}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password, password_confirm: passwordConfirm }),
+            body: JSON.stringify({ username, password, password_confirm: passwordConfirm, ...(storeId && { store_id: storeId }) }),
           });
           if (res.status !== 201) return false;
           const json = await res.json();

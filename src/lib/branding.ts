@@ -1,4 +1,4 @@
-export type BrandKey = "albaraka" | "pijamapro";
+export type BrandKey = "albaraka" | "pijamapro" | "texnomart";
 
 export type BrandLocation = {
   name: string;
@@ -30,6 +30,8 @@ export type BrandConfig = {
   description: string;
   metadataTitle: string;
   metadataDescription: string;
+  mainColor: string;
+  secondaryColor: string;
   theme: BrandTheme;
   locations: BrandLocation[];
   socials: BrandSocial[];
@@ -59,12 +61,14 @@ const BRAND_CONFIGS: Record<BrandKey, BrandConfig> = {
     description: "Har bir munosabat uchun tanlangan kiyimlar. Sifatli mahsulotlar adolatli narxlarda.",
     metadataTitle: "Al Baraka - Onlayn do'kon",
     metadataDescription: "Al Baraka onlayn do'konida mahsulotlarni qulay va tez buyurtma qiling.",
+    mainColor: "#000000",
+    secondaryColor: "#16a34a",
     theme: {
-      primary: "bg-black",
-      primaryHover: "hover:bg-zinc-900",
-      text: "text-zinc-900",
-      accent: "text-green-500",
-      accentHover: "hover:bg-green-700",
+      primary: "bg-brand-primary",
+      primaryHover: "hover:bg-brand-primary",
+      text: "text-brand-primary",
+      accent: "text-brand-primary",
+      accentHover: "hover:bg-brand-primary",
     },
     locations: [
       { name: "Al-Baraka — Chilonzor", address: "Chilonzor filiali", hours: "09:00 – 21:00", phone: "+998 95 501 44 47", mapUrl: "https://maps.app.goo.gl/xUJmMBQXscUix3hw9" },
@@ -94,12 +98,14 @@ const BRAND_CONFIGS: Record<BrandKey, BrandConfig> = {
     description: "Qulay va sifatli pijamalar. Oilaviy uyqu kiyimlari eng yaxshi narxlarda.",
     metadataTitle: "Pijama Pro - Onlayn do'kon",
     metadataDescription: "Pijama Pro onlayn do'konida mahsulotlarni ishonchli va oson xarid qiling.",
+    mainColor: "#7c3aed",
+    secondaryColor: "#a78bfa",
     theme: {
-      primary: "bg-violet-600",
-      primaryHover: "hover:bg-violet-700",
-      text: "text-violet-600",
-      accent: "text-violet-400",
-      accentHover: "hover:bg-violet-700",
+      primary: "bg-brand-primary",
+      primaryHover: "hover:bg-brand-primary",
+      text: "text-brand-primary",
+      accent: "text-brand-primary",
+      accentHover: "hover:bg-brand-primary",
     },
     locations: [
       { name: "Pijama Pro — Markaz", address: "Markaz filiali", hours: "09:00 – 21:00", phone: "+998 90 000 00 00", mapUrl: "#" },
@@ -115,6 +121,38 @@ const BRAND_CONFIGS: Record<BrandKey, BrandConfig> = {
       apple:      "/pijamapro/apple-touch-icon.png",
       android192: "/pijamapro/android-chrome-192x192.png",
       android512: "/pijamapro/android-chrome-512x512.png",
+    },
+  },
+
+  texnomart: {
+    key: "texnomart",
+    storeId: "b34565ee-fdce-440d-a17f-55c588b72947",
+    displayName: "Texnomart",
+    logoPath: "/texnomart/texnomart-logo.png",
+    description: "Arzon narxlarda sifatli texnika sotib oling.",
+    metadataTitle: "Texnomart - Onlayn do'kon",
+    metadataDescription: "Texnomart onlayn do'konida sifatli texnikani qulay va tez buyurtma qiling.",
+    mainColor: "#f5ce42",
+    secondaryColor: "#080808",
+    theme: {
+      primary: "bg-brand-primary",
+      primaryHover: "hover:bg-brand-primary",
+      text: "text-brand-primary",
+      accent: "text-brand-primary",
+      accentHover: "hover:bg-brand-primary",
+    },
+    locations: [],
+    socials: [
+      { label: "Instagram", href: "#", path: INSTAGRAM_PATH },
+      { label: "Telegram",  href: "#", path: TELEGRAM_PATH  },
+    ],
+    icons: {
+      icon:       "/texnomart/favicon.ico",
+      icon16:     "/texnomart/favicon-16x16.png",
+      icon32:     "/texnomart/favicon-32x32.png",
+      apple:      "/texnomart/apple-touch-icon.png",
+      android192: "/texnomart/android-chrome-192x192.png",
+      android512: "/texnomart/android-chrome-512x512.png",
     },
   },
 };
@@ -133,6 +171,10 @@ export function getBrandByHost(host?: string | null): BrandConfig {
 
   if (normalized.includes("pijamapro")) {
     return BRAND_CONFIGS.pijamapro;
+  }
+
+  if (normalized.includes("texnomart")) {
+    return BRAND_CONFIGS.texnomart;
   }
 
   return BRAND_CONFIGS.albaraka;
