@@ -15,8 +15,9 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /home/front/ecom-client
+            cd /home/front/client
             git pull origin main
             npm install
             npm run build
-            pm2 restart ecom-client
+            pm2 restart client || pm2 start npm --name client -- start
+            pm2 save
